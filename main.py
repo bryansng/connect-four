@@ -191,6 +191,18 @@ def checkIfWin(player, board):
 				boolResult = searchDirections(player, board, r, c)
 				if boolResult:
 					return boolResult
+					
+					
+# Functions checks if the chosen column is overflow, in which case, the player
+# cannot place a disc at that column.
+# It takes in the board object and the player's column choice.
+def columnOverflow(board, columnOfChoice):
+	# If the top most row of the chosen column is not filled yet.
+	# If filled, means overflow.
+	if board.discs[0][columnOfChoice] is None:
+		return False
+	else:
+		return True
 	
 	
 # Function handles the turn of the game, it returns the player's object that won.
@@ -199,12 +211,27 @@ def manageTurns(p1, p2, board):
 	numTurns = 1
 	while True:
 		printBoard(p1, p2, board)
-		print("\nTurn " + str(numTurns))
 		
 		# If odd, then yellow. First turn is yellow.
 		if numTurns % 2:
-			columnOfChoice = int(input(p1.name + ", please choose which column to insert your disc: "))
-			columnOfChoice -= 1
+			print("\nTurn " + str(numTurns) + " - " + p1.name + "'s turn")
+			
+			while True:
+				columnOfChoice = int(input(p1.name + ", please choose which column to insert your disc: "))
+				print("")
+				# Because arrays start from 0, visually from 1.
+				columnOfChoice -= 1
+				
+				isWithinBounds = 0 <= columnOfChoice <= board.col-1
+				if isWithinBounds:
+					isOverflow = columnOverflow(board, columnOfChoice)
+				if not isWithinBounds:
+					print("[Error] Please choose a column within 1 - " + str(board.col) + ".")
+				elif isOverflow:
+					print("[Error] Please choose a column that is not fully filled with discs.")
+				if isWithinBounds and not isOverflow:
+					break
+				
 			placeDisc(p1, board, columnOfChoice)
 			
 			if checkIfWin(p1, board):
@@ -212,8 +239,24 @@ def manageTurns(p1, p2, board):
 				return p1
 		# else all is red's turn.
 		else:
-			columnOfChoice = int(input(p2.name + ", please choose which column to insert your disc: "))
-			columnOfChoice -= 1
+			print("\nTurn " + str(numTurns) + " - " + p2.name + "'s turn")
+			
+			while True:
+				columnOfChoice = int(input(p2.name + ", please choose which column to insert your disc: "))
+				print("")
+				# Because arrays start from 0, visually from 1.
+				columnOfChoice -= 1
+				
+				isWithinBounds = 0 <= columnOfChoice <= board.col-1
+				if isWithinBounds:
+					isOverflow = columnOverflow(board, columnOfChoice)
+				if not isWithinBounds:
+					print("[Error] Please choose a column within 1 - " + str(board.col) + ".")
+				elif isOverflow:
+					print("[Error] Please choose a column that is not fully filled with discs.")
+				if isWithinBounds and not isOverflow:
+					break
+				
 			placeDisc(p2, board, columnOfChoice)
 			
 			if checkIfWin(p2, board):
