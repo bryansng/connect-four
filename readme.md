@@ -2,7 +2,7 @@
 
 Connect Four, a connection game for 2 players, played on a seven-column, six-row vertically suspended grid. Players take turns dropping discs, occupying the lowest available space within the column, with the objective to form a horizontal, vertical, or diagonal line of four of one's own discs.
 
-![Alt text](./readme-resources/img/connect4_1.png "Preview")
+![Alt text](./readme-resources/img/overview.png "Preview")
 
 &nbsp;
 ## Task - Implement the game logic
